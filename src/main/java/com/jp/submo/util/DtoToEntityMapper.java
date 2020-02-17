@@ -1,5 +1,6 @@
 package com.jp.submo.util;
 
+import com.jp.submo.dto.AssignChefToSubscriptionDto;
 import com.jp.submo.dto.SubscriptionCostDto;
 import com.jp.submo.dto.SubscriptionDto;
 import com.jp.submo.dto.SubscriptionPaymentDto;
@@ -7,6 +8,9 @@ import com.jp.submo.repository.entity.AllSubscription;
 import com.jp.submo.repository.entity.MealType;
 import com.jp.submo.repository.entity.PaymentMode;
 import com.jp.submo.repository.entity.PaymentStatus;
+import com.jp.submo.repository.entity.SubscribedChef;
+import com.jp.submo.repository.entity.SubscribedChefStatus;
+import com.jp.submo.repository.entity.SubscriptionActual;
 import com.jp.submo.repository.entity.SubscriptionCost;
 import com.jp.submo.repository.entity.SubscriptionDuration;
 import com.jp.submo.repository.entity.SubscriptionMeal;
@@ -97,5 +101,32 @@ public class DtoToEntityMapper {
             meals.add(meal);
         });
         return meals;
+    }
+
+    public static SubscriptionActual getSubscriptionActual(AssignChefToSubscriptionDto assignChefToSubscriptionDto,
+                                                           Timestamp date,
+                                                           SubscriptionMeal subscriptionMeal) {
+        SubscriptionActual actual = new SubscriptionActual();
+        actual.setCreatedBy(assignChefToSubscriptionDto.getCreatedBy());
+        actual.setChefId(assignChefToSubscriptionDto.getChefId());
+        actual.setSubscriptionMeal(subscriptionMeal);
+        actual.setActualStatusId(1L);
+        actual.setDate(date);
+        actual.setCreatedDateTime(Timestamp.valueOf(LocalDateTime.now()));
+        return actual;
+
+    }
+
+    public static SubscribedChef getSubscribedChef(AssignChefToSubscriptionDto assignChefToSubscriptionDto,
+                                                   AllSubscription allSubscription, EntityManager entityManager) {
+        SubscribedChef chef = new SubscribedChef();
+        chef.setChefId(assignChefToSubscriptionDto.getChefId());
+        chef.setSubscribedChefStatus(entityManager.getReference(SubscribedChefStatus.class, 1L));
+        chef.setSubscription(allSubscription);
+        chef.setCreatedBy(assignChefToSubscriptionDto.getCreatedBy());
+        chef.setCreatedDateTime(Timestamp.valueOf(LocalDateTime.now()));
+        chef.setStartDate(allSubscription.getStartDate());
+        chef.setEndDate(allSubscription.getEndDate());
+        return chef;
     }
 }

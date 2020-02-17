@@ -3,6 +3,7 @@ package com.jp.submo.repository.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,6 +30,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Entity
 @Table(name = "all_subscriptions")
+@DynamicUpdate
 public class AllSubscription extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,11 +53,11 @@ public class AllSubscription extends BaseEntity implements Serializable {
     @JoinColumn(name="user_id")
     private UserProfiles userProfile;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name="subscription_duration_id")
     private SubscriptionDuration subscriptionDuration;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name="subscription_status_id")
     private SubscriptionStatus subscriptionStatus;
 

@@ -1,4 +1,4 @@
-package com.jp.submo;
+package com.jp.submo.exception;
 
 /**
  * @author chetan
