@@ -103,12 +103,12 @@ public class DtoToEntityMapper {
         return meals;
     }
 
-    public static SubscriptionActual getSubscriptionActual(AssignChefToSubscriptionDto assignChefToSubscriptionDto,
+    public static SubscriptionActual getSubscriptionActual(String createdBy,Long chefId,
                                                            Timestamp date,
                                                            SubscriptionMeal subscriptionMeal) {
         SubscriptionActual actual = new SubscriptionActual();
-        actual.setCreatedBy(assignChefToSubscriptionDto.getCreatedBy());
-        actual.setChefId(assignChefToSubscriptionDto.getChefId());
+        actual.setCreatedBy(createdBy);
+        actual.setChefId(chefId);
         actual.setSubscriptionMeal(subscriptionMeal);
         actual.setActualStatusId(1L);
         actual.setDate(date);
@@ -117,13 +117,13 @@ public class DtoToEntityMapper {
 
     }
 
-    public static SubscribedChef getSubscribedChef(AssignChefToSubscriptionDto assignChefToSubscriptionDto,
+    public static SubscribedChef getSubscribedChef(String createdBy,Long chefId,
                                                    AllSubscription allSubscription, EntityManager entityManager) {
         SubscribedChef chef = new SubscribedChef();
-        chef.setChefId(assignChefToSubscriptionDto.getChefId());
+        chef.setChefId(chefId);
         chef.setSubscribedChefStatus(entityManager.getReference(SubscribedChefStatus.class, 1L));
         chef.setSubscription(allSubscription);
-        chef.setCreatedBy(assignChefToSubscriptionDto.getCreatedBy());
+        chef.setCreatedBy(createdBy);
         chef.setCreatedDateTime(Timestamp.valueOf(LocalDateTime.now()));
         chef.setStartDate(allSubscription.getStartDate());
         chef.setEndDate(allSubscription.getEndDate());

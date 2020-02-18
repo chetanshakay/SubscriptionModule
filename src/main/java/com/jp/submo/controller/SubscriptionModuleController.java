@@ -1,5 +1,7 @@
 package com.jp.submo.controller;
 
+import com.jp.submo.dto.EndSubscriptionDto;
+import com.jp.submo.dto.ReassignChefToSubscriptionDto;
 import com.jp.submo.exception.SubscriptionException;
 import com.jp.submo.dto.AssignChefToSubscriptionDto;
 import com.jp.submo.dto.ConfirmSubscriptionDto;
@@ -13,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -77,6 +78,45 @@ public class SubscriptionModuleController {
     public ResponseEntity<JpResponseModel> startCooking(@RequestBody() CookingDto cookingDto) {
         try {
             return new ResponseEntity<>(subscriptionService.startCooking(cookingDto),
+                    HttpStatus.OK);
+        } catch (SubscriptionException subExp) {
+            return new ResponseEntity<>(error(subExp.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(error(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/end-cooking")
+    public ResponseEntity<JpResponseModel> endCooking(@RequestBody() CookingDto cookingDto) {
+        try {
+            return new ResponseEntity<>(subscriptionService.endCooking(cookingDto),
+                    HttpStatus.OK);
+        } catch (SubscriptionException subExp) {
+            return new ResponseEntity<>(error(subExp.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(error(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/end-subscription")
+    public ResponseEntity<JpResponseModel> endSubscription(@RequestBody() EndSubscriptionDto endSubscriptionDto) {
+        try {
+            return new ResponseEntity<>(subscriptionService.endSubscription(endSubscriptionDto),
+                    HttpStatus.OK);
+        } catch (SubscriptionException subExp) {
+            return new ResponseEntity<>(error(subExp.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(error(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/reassign-subscription")
+    public ResponseEntity<JpResponseModel> reassignSubscriptionToChef(@RequestBody() ReassignChefToSubscriptionDto reassignChefToSubscriptionDto) {
+        try {
+            return new ResponseEntity<>(subscriptionService.reassignChefToSubscription(reassignChefToSubscriptionDto),
                     HttpStatus.OK);
         } catch (SubscriptionException subExp) {
             return new ResponseEntity<>(error(subExp.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

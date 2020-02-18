@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AssignChefToSubscriptionDto {
 
-    private Long subscriptionId;
-    private Long chefId;
-    private String createdBy;
+    Long subscriptionId;
+    Long chefId;
+    String createdBy;
 
 }

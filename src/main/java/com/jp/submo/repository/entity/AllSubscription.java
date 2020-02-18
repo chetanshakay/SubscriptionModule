@@ -69,4 +69,7 @@ public class AllSubscription extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "allSubscription")
     private Collection<SubscriptionMeal> subscriptionMeals;
 
+    @OneToMany(mappedBy = "subscription")
+    private Collection<SubscribedChef> subscribedChefs;
+
 }
