@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SubscriptionMealDto {
     private Long mealType;
-    private String timeSlot;
+    private String time;
 }

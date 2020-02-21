@@ -29,7 +29,6 @@ public class SubscriptionDto {
 
     private Long subscriptionDuration;
 
-    private String createdBy;
 
     private SubscriptionCostDto subscriptionCost;
     private SubscriptionPaymentDto subscriptionPayment;

@@ -15,9 +15,5 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class CookingDto {
 
-    private Long mealId;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
-    private String modifiedBy;
-
+    private Long subscriptionMealId;
 }

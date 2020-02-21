@@ -36,8 +36,12 @@ public class SubscriptionActual extends BaseEntity implements Serializable {
     private Long subscriptionActualId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subscription_meal_id")
-    private SubscriptionMeal subscriptionMeal;
+    @JoinColumn(name = "meal_type_id")
+    private MealType mealType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subscription_id")
+    private AllSubscription subscription;
 
     @Column(name = "actual_status_id")
     private Long actualStatusId;
@@ -48,10 +52,10 @@ public class SubscriptionActual extends BaseEntity implements Serializable {
     @Column(name="date")
     private Timestamp date;
 
-    @Column(name = "start_date")
-    private Timestamp startDate;
+    @Column(name = "start_time")
+    private Timestamp startTime;
 
-    @Column(name = "end_date")
-    private Timestamp endDate;
+    @Column(name = "end_time")
+    private Timestamp endTime;
 
 }

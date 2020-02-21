@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ReassignChefToSubscriptionDto extends AssignChefToSubscriptionDto {
-    private Long endType;
-    private String modifiedBy;
+    private Long actualStatusId;
 }

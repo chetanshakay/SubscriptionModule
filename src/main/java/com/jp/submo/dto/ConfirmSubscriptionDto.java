@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 public class ConfirmSubscriptionDto {
 
     private long subscriptionId;
-    private String modifiedBy;
+    private String transRefKey;
+    private String transactionComment;
+
 
 }

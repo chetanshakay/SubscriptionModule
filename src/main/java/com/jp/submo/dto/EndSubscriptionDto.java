@@ -14,7 +14,5 @@ import lombok.NoArgsConstructor;
 public class EndSubscriptionDto {
 
     private Long subscriptionId;
-    private Long endType;
-    private String modifiedBy;
-    private String createdBy;
+    private Long actualStatusId;
 }

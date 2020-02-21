@@ -17,14 +17,9 @@ public class SubscriptionPaymentDto {
 
     private long paymentMode;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime paymentTime;
-
     private long thirdPartyProvider;
 
     private double totalAmountPaid;
-
-    private String transRefKey;
 
     private String transactionComment;
 }

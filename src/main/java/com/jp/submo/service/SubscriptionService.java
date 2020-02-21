@@ -13,19 +13,20 @@ import com.jp.submo.dto.SubscriptionDto;
  */
 public interface SubscriptionService {
 
-    JpResponseModel createSubscription(SubscriptionDto subscriptionDto);
+    JpResponseModel createSubscription(SubscriptionDto subscriptionDto, String createdBy);
 
-    JpResponseModel confirmSubscription(ConfirmSubscriptionDto confirmSubscriptionDto);
+    JpResponseModel confirmSubscription(ConfirmSubscriptionDto confirmSubscriptionDto, String modifiedBy);
 
-    JpResponseModel assignChefToSubscription(AssignChefToSubscriptionDto assignChefToSubscriptionDto);
+    JpResponseModel assignChefToSubscription(AssignChefToSubscriptionDto assignChefToSubscriptionDto, String createdBy);
 
-    JpResponseModel startCooking(CookingDto cookingDto);
+    JpResponseModel startCooking(CookingDto cookingDto, String modifiedBy);
 
-    JpResponseModel endCooking(CookingDto cookingDto);
+    JpResponseModel endCooking(CookingDto cookingDto, String modifiedBy);
 
-    JpResponseModel endSubscription(EndSubscriptionDto endSubscriptionDto);
+    JpResponseModel endSubscription(EndSubscriptionDto endSubscriptionDto, String createdBy, String modifiedBy);
 
-    JpResponseModel reassignChefToSubscription(ReassignChefToSubscriptionDto reassignChefToSubscriptionDto);
+    JpResponseModel reassignChefToSubscription(ReassignChefToSubscriptionDto reassignChefToSubscriptionDto, String
+            createdBy);
 
 
 }

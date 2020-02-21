@@ -36,7 +36,7 @@ public class SubscriptionModuleController {
     @PostMapping("/create-subscription")
     public ResponseEntity<JpResponseModel> createSubscription(@RequestBody() SubscriptionDto subscriptionDto) {
         try {
-            return new ResponseEntity<>(subscriptionService.createSubscription(subscriptionDto),
+            return new ResponseEntity<>(subscriptionService.createSubscription(subscriptionDto, "test001"),
                     HttpStatus.OK);
         } catch (SubscriptionException subExp) {
             return new ResponseEntity<>(error(subExp.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -50,7 +50,7 @@ public class SubscriptionModuleController {
     public ResponseEntity<JpResponseModel> confirmSubscription(@RequestBody() ConfirmSubscriptionDto
                                                                        confirmSubscriptionDto) {
         try {
-            return new ResponseEntity<>(subscriptionService.confirmSubscription(confirmSubscriptionDto),
+            return new ResponseEntity<>(subscriptionService.confirmSubscription(confirmSubscriptionDto, "test002"),
                     HttpStatus.OK);
         } catch (SubscriptionException subExp) {
             return new ResponseEntity<>(error(subExp.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -64,7 +64,8 @@ public class SubscriptionModuleController {
     public ResponseEntity<JpResponseModel> assignChefToSubscription(@RequestBody() AssignChefToSubscriptionDto
                                                                             assignChefToSubscriptionDto) {
         try {
-            return new ResponseEntity<>(subscriptionService.assignChefToSubscription(assignChefToSubscriptionDto),
+            return new ResponseEntity<>(subscriptionService.assignChefToSubscription(assignChefToSubscriptionDto,
+                    "test003"),
                     HttpStatus.OK);
         } catch (SubscriptionException subExp) {
             return new ResponseEntity<>(error(subExp.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -77,7 +78,7 @@ public class SubscriptionModuleController {
     @PostMapping("/start-cooking")
     public ResponseEntity<JpResponseModel> startCooking(@RequestBody() CookingDto cookingDto) {
         try {
-            return new ResponseEntity<>(subscriptionService.startCooking(cookingDto),
+            return new ResponseEntity<>(subscriptionService.startCooking(cookingDto, "test005"),
                     HttpStatus.OK);
         } catch (SubscriptionException subExp) {
             return new ResponseEntity<>(error(subExp.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -90,7 +91,7 @@ public class SubscriptionModuleController {
     @PostMapping("/end-cooking")
     public ResponseEntity<JpResponseModel> endCooking(@RequestBody() CookingDto cookingDto) {
         try {
-            return new ResponseEntity<>(subscriptionService.endCooking(cookingDto),
+            return new ResponseEntity<>(subscriptionService.endCooking(cookingDto, "test005"),
                     HttpStatus.OK);
         } catch (SubscriptionException subExp) {
             return new ResponseEntity<>(error(subExp.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -103,7 +104,7 @@ public class SubscriptionModuleController {
     @PostMapping("/end-subscription")
     public ResponseEntity<JpResponseModel> endSubscription(@RequestBody() EndSubscriptionDto endSubscriptionDto) {
         try {
-            return new ResponseEntity<>(subscriptionService.endSubscription(endSubscriptionDto),
+            return new ResponseEntity<>(subscriptionService.endSubscription(endSubscriptionDto, "test004", "test004"),
                     HttpStatus.OK);
         } catch (SubscriptionException subExp) {
             return new ResponseEntity<>(error(subExp.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -114,9 +115,11 @@ public class SubscriptionModuleController {
     }
 
     @PostMapping("/reassign-subscription")
-    public ResponseEntity<JpResponseModel> reassignSubscriptionToChef(@RequestBody() ReassignChefToSubscriptionDto reassignChefToSubscriptionDto) {
+    public ResponseEntity<JpResponseModel> reassignSubscriptionToChef(@RequestBody() ReassignChefToSubscriptionDto
+                                                                                  reassignChefToSubscriptionDto) {
         try {
-            return new ResponseEntity<>(subscriptionService.reassignChefToSubscription(reassignChefToSubscriptionDto),
+            return new ResponseEntity<>(subscriptionService.reassignChefToSubscription(reassignChefToSubscriptionDto,
+                    "test004"),
                     HttpStatus.OK);
         } catch (SubscriptionException subExp) {
             return new ResponseEntity<>(error(subExp.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

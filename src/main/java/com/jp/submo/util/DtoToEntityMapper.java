@@ -22,6 +22,7 @@ import com.jp.submo.repository.entity.UserProfiles;
 import javax.persistence.EntityManager;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,10 +32,10 @@ import java.util.List;
  */
 public class DtoToEntityMapper {
 
-    public static AllSubscription getSubscription(SubscriptionDto subscriptionDto, EntityManager entityManager) {
+    public static AllSubscription getSubscription(SubscriptionDto subscriptionDto, EntityManager entityManager, String createdBy) {
 
         AllSubscription subscription = new AllSubscription();
-        subscription.setCreatedBy(subscriptionDto.getCreatedBy());
+        subscription.setCreatedBy(createdBy);
         subscription.setCreatedDateTime(Timestamp.valueOf(LocalDateTime.now()));
         subscription.setEndDate(Timestamp.valueOf(subscriptionDto.getEndDate().atStartOfDay()));
         subscription.setStartDate(Timestamp.valueOf(subscriptionDto.getStartDate().atStartOfDay()));
@@ -50,12 +51,12 @@ public class DtoToEntityMapper {
 
 
     public static SubscriptionCost getSubscriptionCost(SubscriptionDto subscriptionDto, AllSubscription
-            allSubscription) {
+            allSubscription,String createdBy) {
         SubscriptionCostDto costDto = subscriptionDto.getSubscriptionCost();
         SubscriptionCost cost = new SubscriptionCost();
         cost.setAllSubscription(allSubscription);
         cost.setActualCost(costDto.getActualCost());
-        cost.setCreatedBy(subscriptionDto.getCreatedBy());
+        cost.setCreatedBy(createdBy);
         cost.setCreatedDateTime(Timestamp.valueOf(LocalDateTime.now()));
         cost.setDiscount(costDto.getDiscount());
         cost.setDiscountRefKey(costDto.getDiscountRefKey());
@@ -68,34 +69,34 @@ public class DtoToEntityMapper {
     }
 
     public static SubscriptionPayment getSubscriptionPayment(SubscriptionDto subscriptionDto, AllSubscription
-            allSubscription, EntityManager entityManager) {
+            allSubscription, EntityManager entityManager,String createdBy) {
         SubscriptionPaymentDto paymentDto = subscriptionDto.getSubscriptionPayment();
         SubscriptionPayment payment = new SubscriptionPayment();
         payment.setAllSubscription(allSubscription);
-        payment.setCreatedBy(subscriptionDto.getCreatedBy());
+        payment.setCreatedBy(createdBy);
         payment.setCreatedDateTime(Timestamp.valueOf(LocalDateTime.now()));
         payment.setPaymentMode(entityManager.getReference(PaymentMode.class, paymentDto.getPaymentMode()));
         payment.setPaymentStatus(entityManager.getReference(PaymentStatus.class
                 , 1L));
-        payment.setPaymentTime(Timestamp.valueOf(paymentDto.getPaymentTime()));
+        payment.setPaymentTime(Timestamp.valueOf(LocalDateTime.now()));
         payment.setThirdPartyProvider(entityManager.getReference(ThirdPartyProvider.class, paymentDto
                 .getThirdPartyProvider()));
         payment.setTransactionComment(paymentDto.getTransactionComment());
         payment.setTotalAmountPaid(paymentDto.getTotalAmountPaid());
-        payment.setTransRefKey(paymentDto.getTransRefKey());
+
 
         return payment;
 
     }
 
     public static Collection<SubscriptionMeal> getSubscriptionMeals(SubscriptionDto subscriptionDto, AllSubscription
-            allSubscription, EntityManager entityManager) {
+            allSubscription, EntityManager entityManager,String createdBy) {
         List<SubscriptionMeal> meals = new ArrayList();
         subscriptionDto.getSubscriptionMeals().forEach(mealDto -> {
             SubscriptionMeal meal = new SubscriptionMeal();
-            meal.setCreatedBy(subscriptionDto.getCreatedBy());
+            meal.setCreatedBy(createdBy);
             meal.setMealType(entityManager.getReference(MealType.class, mealDto.getMealType()));
-            meal.setTimeSlot(mealDto.getTimeSlot());
+            meal.setTime(LocalTime.parse(mealDto.getTime()));
             meal.setCreatedDateTime(Timestamp.valueOf(LocalDateTime.now()));
             meal.setAllSubscription(allSubscription);
             meals.add(meal);
@@ -105,13 +106,15 @@ public class DtoToEntityMapper {
 
     public static SubscriptionActual getSubscriptionActual(String createdBy,Long chefId,
                                                            Timestamp date,
-                                                           SubscriptionMeal subscriptionMeal) {
+                                                           AllSubscription allSubscription,
+                                                           MealType mealType) {
         SubscriptionActual actual = new SubscriptionActual();
         actual.setCreatedBy(createdBy);
         actual.setChefId(chefId);
-        actual.setSubscriptionMeal(subscriptionMeal);
+        actual.setMealType(mealType);
         actual.setActualStatusId(1L);
         actual.setDate(date);
+        actual.setSubscription(allSubscription);
         actual.setCreatedDateTime(Timestamp.valueOf(LocalDateTime.now()));
         return actual;
 

@@ -14,6 +14,5 @@ public class AssignChefToSubscriptionDto {
 
     Long subscriptionId;
     Long chefId;
-    String createdBy;
 
 }

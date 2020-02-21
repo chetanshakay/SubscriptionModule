@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.time.LocalTime;
 
 /**
  * @author chetan
@@ -34,8 +35,8 @@ public class SubscriptionMeal extends BaseEntity implements Serializable {
     @JoinColumn(name="meal_type")
     private MealType mealType;
 
-    @Column(name="time_slot")
-    private String timeSlot;
+    @Column(name="time")
+    private LocalTime time;
 
     @ManyToOne
     @JoinColumn(name="subscription_id")
