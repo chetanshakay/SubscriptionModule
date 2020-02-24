@@ -141,6 +141,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         assignChefToSubscription(createdBy, assignChefToSubscriptionDto.getChefId(),
                 allSubscription.getStartDate().toLocalDateTime(), allSubscription);
 
+        allSubscription.setSubscriptionStatus(entityManager.getReference(SubscriptionStatus.class,3L));
+        allSubscriptionRepository.saveAndFlush(allSubscription);
+
         return success();
 
     }
@@ -148,25 +151,17 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public JpResponseModel startCooking(CookingDto cookingDto, String modifiedBy) {
-        Optional<SubscriptionMeal> subscriptionMeal = subscriptionMealRepository.findById(cookingDto
-                .getSubscriptionMealId());
+        Optional<SubscriptionActual> subscriptionActualOptional = subscriptionActualRepository.findById(cookingDto
+                .getSubscriptionActualId());
 
-        if (!subscriptionMeal.isPresent()) {
-            throwError("No SubscriptionMeal found!");
+        if (!subscriptionActualOptional.isPresent()) {
+            throwError("No Subscription actual found!");
         }
 
-        SubscriptionMeal subscriptionMealEntity = subscriptionMeal.get();
+        SubscriptionActual subscriptionActual = subscriptionActualOptional.get();
 
-        SubscriptionActual subscriptionActual = subscriptionActualRepository
-                .findOneBySubscriptionAndMealTypeAndDateAndActualStatusId
-                        (subscriptionMealEntity.getAllSubscription(),
-                                subscriptionMealEntity.getMealType(),
-                                Timestamp.valueOf
-                                        (LocalDate.now().atStartOfDay()), 1L);
 
-        if (null == subscriptionActual) {
-            throwError("No actual subscription found!");
-        }
+
 
         subscriptionActual.setActualStatusId(2L);
         subscriptionActual.setStartTime(Timestamp.valueOf(LocalDateTime.now()));
@@ -181,25 +176,14 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public JpResponseModel endCooking(CookingDto cookingDto, String modifiedBy) {
-        Optional<SubscriptionMeal> subscriptionMeal = subscriptionMealRepository.findById(cookingDto
-                .getSubscriptionMealId());
+        Optional<SubscriptionActual> subscriptionActualOptional = subscriptionActualRepository.findById(cookingDto
+                .getSubscriptionActualId());
 
-        if (!subscriptionMeal.isPresent()) {
-            throwError("No SubscriptionMeal found!");
+        if (!subscriptionActualOptional.isPresent()) {
+            throwError("No Subscription actual found!");
         }
-        SubscriptionMeal subscriptionMealEntity = subscriptionMeal.get();
 
-        SubscriptionActual subscriptionActual = subscriptionActualRepository
-                .findOneBySubscriptionAndMealTypeAndDateAndActualStatusId
-                        (subscriptionMealEntity.getAllSubscription(),
-                                subscriptionMealEntity.getMealType(),
-                                Timestamp.valueOf
-                                        (LocalDate.now().atStartOfDay()), 2L);
-
-
-        if (null == subscriptionActual) {
-            throwError("No actual subscription found!");
-        }
+        SubscriptionActual subscriptionActual = subscriptionActualOptional.get();
 
         subscriptionActual.setActualStatusId(3L);
         subscriptionActual.setEndTime(Timestamp.valueOf(LocalDateTime.now()));
@@ -253,7 +237,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         endSubscriptionsForAllChefs(reassignChefToSubscriptionDto.getActualStatusId(), createdBy, allSubscription);
 
 
-        LocalDateTime startDate = LocalDate.now().atStartOfDay();
+        LocalDateTime startDate = LocalDate.now().atStartOfDay().plusDays(1);
 
         assignChefToSubscription(createdBy, reassignChefToSubscriptionDto
                 .getChefId(), startDate, allSubscription);

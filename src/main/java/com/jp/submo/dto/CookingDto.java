@@ -15,5 +15,5 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class CookingDto {
 
-    private Long subscriptionMealId;
+    private Long subscriptionActualId;
 }
